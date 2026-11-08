@@ -464,6 +464,15 @@ function openDatabase() {
     });
 }
 
+function getAllSongs() {
+    return new Promise((resolve, reject) => {
+        const request = db.transaction("songs", "readonly")
+            .objectStore("songs").getAll();
+
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+           }
 function saveSong(song) {
     return new Promise((resolve, reject) => {
         const transaction = db.transaction("songs", "readwrite");
