@@ -1,0 +1,124 @@
+
+/* =====================================
+   MIND FRESH MUSIC
+   DARK PREMIUM BASE DESIGN
+===================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+    --bg: #101014;
+    --surface: #1b1b24;
+    --surface-light: #252530;
+    --primary: #a879ff;
+    --primary-light: #c4a3ff;
+    --text: #ffffff;
+    --muted: #a5a5b3;
+    --border: #30303c;
+}
+
+html {
+    min-height: 100%;
+    background: var(--bg);
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+button {
+    color: var(--text);
+    cursor: pointer;
+    border: none;
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+input {
+    color: var(--text);
+    outline: none;
+}
+
+input::placeholder {
+    color: var(--muted);
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+h1,
+h2,
+h3 {
+    color: var(--text);
+}
+
+p {
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+/* Premium scrollbar */
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #5b4380;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Focus effect */
+
+button:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+}
+
+/* Small screen support */
+
+@media (max-width: 360px) {
+    body {
+        font-size: 14px;
+    }
+}
+
+/* Fix white buttons */
+
+button:not(.nav-item):not(.nav-home) {
+    background: linear-gradient(135deg, #382653, #593b80) !important;
+    color: #ffffff !important;
+    border: 1px solid #7653a5 !important;
+    border-radius: 12px;
+    font-weight: 600;
+    box-shadow: 0 3px 12px #00000040;
+}
+
+button:not(.nav-item):not(.nav-home):active {
+    background: #7650a8 !important;
+    transform: scale(0.96);
+}
+
