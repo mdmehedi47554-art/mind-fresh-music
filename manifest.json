@@ -1,4 +1,6 @@
+
 {
+  "id": "./",
   "name": "Mind fresh Music",
   "short_name": "Mind fresh",
   "description": "A modern music player for your local songs.",
@@ -7,5 +9,19 @@
   "display": "standalone",
   "background_color": "#080808",
   "theme_color": "#080808",
-  "orientation": "portrait"
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
 }
