@@ -437,26 +437,30 @@ const volumeControl = document.getElementById("volumeControl");
 
 let db;
 
+
 function openDatabase() {
     return new Promise((resolve, reject) => {
-        const request = indexedDB.open("MindFreshMusicDB", 1);
+        const request = indexedDB.open("MindFreshMusicDB", 2);
+
+        request.onupgradeneeded = (event) => {
+            const database = event.target.result;
+
+            if (!database.objectStoreNames.contains("songs")) {
+                database.createObjectStore("songs", {
+                    keyPath: "id",
+                    autoIncrement: true
+                });
+            }
+        };
 
         request.onsuccess = () => {
             db = request.result;
             resolve(db);
         };
 
-        request.onerror = () => reject(request.error);
-    });
-}
-
-function getAllSongs() {
-    return new Promise((resolve, reject) => {
-        const request = db.transaction("songs", "readonly")
-            .objectStore("songs").getAll();
-
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
+        request.onerror = () => {
+            reject(request.error);
+        };
     });
 }
 
