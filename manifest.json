@@ -1,0 +1,11 @@
+{
+  "name": "Mind fresh Music",
+  "short_name": "Mind fresh",
+  "description": "A modern music player for your local songs.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#080808",
+  "theme_color": "#080808",
+  "orientation": "portrait"
+}
