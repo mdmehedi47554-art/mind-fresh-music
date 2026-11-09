@@ -1,307 +1,381 @@
-/* =====================================
+
+/* =========================================
    MIND FRESH MUSIC
-   PREMIUM DARK MUSIC PLAYER
+   LUXURY PREMIUM MUSIC PLAYER
+   BLACK + PURPLE + GOLD
    Complete script.js
-===================================== */
+========================================= */
 
 "use strict";
 
 const app = document.getElementById("app");
 
 if (!app) {
-    throw new Error('Mind fresh Music: "#app" element was not found in index.html.');
+    throw new Error('Mind fresh Music: "#app" not found.');
 }
 
-/* DESIGN */
+/* PREMIUM DESIGN */
 
 const design = document.createElement("style");
 
 design.textContent = `
 body {
-    padding: 18px 16px 155px;
+    padding: 18px 16px 155px !important;
 }
 
 #app { width: 100%; }
 
-.screen { animation: fadeIn .2s ease; }
+.screen { animation: fadeIn .25s ease; }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from { opacity: 0; transform: translateY(7px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.screen-title {
-    color: #bb86fc;
-    font-size: 25px;
-    margin: 12px 0 8px;
-}
-
-.screen-subtitle {
-    color: #aaaab5;
-    font-size: 14px;
-}
-
-.home-welcome {
-    background: linear-gradient(135deg,#302044,#1b1b24);
-    border: 1px solid #49345e;
-    border-radius: 20px;
-    padding: 20px;
-    margin: 20px 0;
-}
-
-.home-welcome h2 { margin: 0 0 8px; color: white; }
-.home-welcome p { margin: 0; }
-
-.home-shortcuts {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 16px 0;
-}
-
-.shortcut {
-    background: #22212e;
-    border: 1px solid #383044;
-    border-radius: 16px;
-    padding: 17px 10px;
-    text-align: left;
-    color: white;
-    margin: 0;
-    box-shadow: none;
-}
-
-.shortcut span {
-    display: block;
-    font-size: 25px;
-    margin-bottom: 8px;
-}
-
-.shortcut small { color: #aaaab5; font-weight: normal; }
-
-.home-stats { display: flex; gap: 12px; margin-top: 15px; }
-
-.stat-card {
-    flex: 1;
-    background: #1b1b24;
-    border: 1px solid #30303c;
-    border-radius: 14px;
-    padding: 14px;
-    text-align: center;
-}
-
-.stat-card strong {
-    display: block;
-    color: #bb86fc;
-    font-size: 22px;
-}
-
-.stat-card small { color: #aaaab5; }
-
-.screen-search {
-    width: 100%;
-    padding: 14px;
-    margin: 18px 0;
-    border-radius: 12px;
-    background: #252530;
-    color: white;
-    border: 1px solid #514064;
-    outline: none;
-    font-size: 15px;
-    box-sizing: border-box;
-}
-
-.screen-search:focus { border-color: #bb86fc; }
-
-.add-song-button {
-    display: block;
-    text-align: center;
-    background: linear-gradient(135deg,#8b5cf6,#bb86fc);
-    color: white;
-    padding: 14px;
-    border-radius: 13px;
-    font-weight: bold;
-    margin: 15px 0;
-}
-
-.song-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: #22222d;
-    border: 1px solid #30303c;
-    padding: 12px;
-    border-radius: 13px;
-    margin: 9px 0;
-}
-
-.song-name {
-    flex: 1;
-    min-width: 0;
-    color: white;
-    overflow-wrap: anywhere;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.song-row button {
-    margin: 0;
-    padding: 9px 11px;
-    box-shadow: none;
-}
-
-.empty-message {
-    text-align: center;
-    background: #1b1b24;
-    border-radius: 14px;
-    padding: 22px 12px;
-    color: #aaaab5;
-    margin-top: 18px;
-}
-
-.setting-card {
-    background: #1b1b24;
-    border: 1px solid #30303c;
-    padding: 17px;
-    border-radius: 15px;
-    margin: 12px 0;
-}
-
-.setting-card h3 { margin: 0 0 8px; color: #bb86fc; }
-.setting-card p { margin: 0; font-size: 13px; }
-
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 76px;
-    background: #1b1b24;
-    border-top: 1px solid #30303c;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    z-index: 1000;
-    padding: 5px 3px;
-    box-sizing: border-box;
-}
-
-.nav-item {
-    background: transparent;
-    box-shadow: none;
-    color: #aaaab5;
-    width: 20%;
-    padding: 5px 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    font-size: 21px;
-    border: 0;
-}
-
-.nav-item small { font-size: 10px; font-weight: normal; }
-.nav-item.active { color: #bb86fc; }
-
-.nav-home {
-    width: 60px;
-    height: 60px;
-    min-width: 60px;
-    min-height: 60px;
-    border-radius: 50%;
-    padding: 0;
-    margin-top: -30px;
-    background: linear-gradient(135deg,#8b5cf6,#bb86fc);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
-    box-shadow: 0 5px 22px #8b5cf666;
-    border: 0;
-}
-
-.nav-home span { font-size: 28px; line-height: 30px; }
-.nav-home small { font-size: 9px; }
-.nav-home.active { color: white; outline: 3px solid #302440; }
+/* FLOATING MINI PLAYER */
 
 .mini-player {
     position: fixed;
     bottom: 76px;
-    left: 0;
-    width: 100%;
-    height: 58px;
-    background: #24212f;
-    border-top: 1px solid #49345e;
+    left: 10px;
+    width: calc(100% - 20px);
+    height: 68px;
+    background: linear-gradient(110deg,#281b38,#15111f) !important;
+    border: 1px solid #76519c !important;
+    border-radius: 17px !important;
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 7px 13px;
+    gap: 11px;
+    padding: 8px 12px;
     z-index: 999;
+    box-shadow: 0 5px 25px #00000080;
     box-sizing: border-box;
+    backdrop-filter: blur(15px);
 }
 
-.mini-song-info { flex: 1; min-width: 0; cursor: pointer; }
-
-.mini-song-info strong {
-    display: block;
-    color: white;
-    font-size: 13px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.mini-song-info small { color: #aaaab5; font-size: 10px; }
-
-.mini-player button {
-    margin: 0;
-    padding: 9px;
-    min-width: 38px;
-    min-height: 38px;
-    border-radius: 50%;
-}
-
-.player-panel {
-    position: fixed;
-    bottom: 134px;
-    left: 0;
-    width: 100%;
-    background: #1b1b24;
-    border-top: 1px solid #49345e;
-    padding: 18px;
-    z-index: 998;
-    display: none;
-    box-sizing: border-box;
-}
-
-.player-panel.open { display: block; }
-.player-panel h3 { overflow-wrap: anywhere; color: #bb86fc; }
-.player-panel input[type="range"] { width: 100%; accent-color: #a879ff; }
-
-.player-panel .controls {
+.mini-cover {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg,#7043a9,#e8c477);
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 9px;
-    margin: 15px 0;
+    font-size: 25px;
+    box-shadow: 0 3px 14px #a879ff55;
+    overflow: hidden;
 }
 
-.player-panel .controls button {
+.mini-cover.playing {
+    animation: coverGlow 2s infinite alternate;
+}
+
+@keyframes coverGlow {
+    from { box-shadow: 0 0 5px #a879ff55; }
+    to { box-shadow: 0 0 17px #e8c47799; }
+}
+
+.mini-song-info {
+    flex: 1;
+    min-width: 0;
+    cursor: pointer;
+}
+
+.mini-song-info strong {
+    display: block;
+    color: #ffe4a6 !important;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mini-song-info small {
+    display: block;
+    color: #aaa2b7 !important;
+    font-size: 10px;
+    margin-top: 4px;
+}
+
+.mini-player button {
+    min-width: 38px;
+    min-height: 38px;
+    border-radius: 50% !important;
+    padding: 8px;
+    margin: 0;
+}
+
+/* FULL PLAYER */
+
+.player-panel {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    height: 100dvh;
+    padding: 22px 22px 105px;
+    box-sizing: border-box;
+    background:
+        radial-gradient(ellipse at top,#44275f 0%,transparent 50%),
+        linear-gradient(160deg,#17101f,#08080d 75%);
+    z-index: 2000;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    border: none !important;
+    border-radius: 0 !important;
+}
+
+.player-panel.open {
+    display: flex !important;
+    animation: playerOpen .3s ease;
+}
+
+@keyframes playerOpen {
+    from { opacity: 0; transform: translateY(35px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.player-top {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.player-top span {
+    color: #e8c477;
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+.player-close {
+    width: 39px;
+    height: 39px;
+    border-radius: 50% !important;
+    background: #302440 !important;
+    border: 1px solid #76519c !important;
+    font-size: 20px;
+}
+
+.player-art {
+    width: min(76vw,310px);
+    height: min(76vw,310px);
+    min-height: 190px;
+    border-radius: 27px;
+    margin: 10px auto 26px;
+    background:
+        radial-gradient(circle at 30% 25%,#d6b0ff55,transparent 30%),
+        radial-gradient(circle at 75% 80%,#e8c47766,transparent 35%),
+        linear-gradient(145deg,#7444a2,#21132f 60%,#0c0b13);
+    border: 1px solid #b78bff;
+    box-shadow: 0 15px 45px #00000080,0 0 28px #a879ff35;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.player-art::before {
+    content: "";
+    position: absolute;
+    width: 78%;
+    height: 78%;
+    border: 1px solid #ffe4a655;
+    border-radius: 50%;
+    box-shadow: 0 0 25px #e8c47722;
+}
+
+.player-art::after {
+    content: "";
+    position: absolute;
+    width: 62%;
+    height: 62%;
+    border: 1px solid #ffffff25;
+    border-radius: 50%;
+}
+
+.art-icon {
+    font-size: 85px;
+    z-index: 1;
+    filter: drop-shadow(0 8px 15px #00000080);
+}
+
+.player-art.playing .art-icon {
+    animation: artFloat 2.5s ease-in-out infinite;
+}
+
+@keyframes artFloat {
+    0%,100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-7px) scale(1.04); }
+}
+
+.player-song-title {
+    width: 100%;
+    color: #ffe4a6 !important;
+    font-size: 20px;
+    text-align: center;
+    overflow-wrap: anywhere;
+    margin: 0 0 5px;
+}
+
+.player-song-subtitle {
+    color: #aaa2b7 !important;
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 17px;
+}
+
+/* VISUALIZER */
+
+.visualizer {
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin: 3px 0 16px;
+}
+
+.visualizer span {
+    display: block;
+    width: 4px;
+    height: 5px;
+    border-radius: 5px;
+    background: linear-gradient(#ffe4a6,#a879ff);
+}
+
+.visualizer.active span {
+    animation: soundWave .65s ease-in-out infinite alternate;
+}
+
+.visualizer span:nth-child(2n) { animation-delay: .2s; }
+.visualizer span:nth-child(3n) { animation-delay: .4s; }
+.visualizer span:nth-child(4n) { animation-delay: .1s; }
+
+@keyframes soundWave {
+    from { height: 5px; }
+    to { height: 26px; }
+}
+
+/* PROGRESS */
+
+.player-progress {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.player-progress input {
+    width: 100%;
+    accent-color: #e8c477;
+}
+
+.player-times {
+    display: flex;
+    justify-content: space-between;
+    color: #aaa2b7;
+    font-size: 11px;
+}
+
+/* PLAYER CONTROLS */
+
+.player-controls {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 22px 0 17px;
+}
+
+.player-controls button {
     width: 43px;
     height: 43px;
     min-width: 43px;
     padding: 0;
-    border-radius: 50%;
+    border-radius: 50% !important;
     margin: 0;
+    background: #302440 !important;
+    border: 1px solid #694b83 !important;
+    font-size: 16px;
 }
 
-.player-panel .controls #panelPlay { width: 54px; height: 54px; }
+.player-controls #panelPlay {
+    width: 62px;
+    height: 62px;
+    min-width: 62px;
+    font-size: 24px;
+    background: linear-gradient(135deg,#7043a9,#b78bff) !important;
+    border: 2px solid #e8c477 !important;
+    box-shadow: 0 5px 20px #a879ff66;
+}
 
-@media (max-width: 360px) {
-    .home-welcome { padding: 16px; }
-    .shortcut { padding: 13px 9px; }
+.player-controls button.selected {
+    color: #ffe4a6 !important;
+    border-color: #e8c477 !important;
+    background: #49345e !important;
+}
+
+.player-bottom {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.player-bottom button {
+    background: #211a2d !important;
+    border: 1px solid #49345e !important;
+    border-radius: 13px !important;
+    padding: 12px 15px;
+    color: #ffe4a6 !important;
+}
+
+.volume-area {
+    width: 100%;
+    margin-top: 18px;
+    color: #aaa2b7;
+    font-size: 12px;
+}
+
+.volume-area input {
+    width: 100%;
+    accent-color: #e8c477;
+}
+
+/* EXISTING APP DESIGN */
+
+.screen-title {
+    color: #e8c477 !important;
+    font-size: 25px;
+}
+
+.home-welcome {
+    background: linear-gradient(135deg,#302044,#17101f) !important;
+    border: 1px solid #76519c !important;
+    border-radius: 20px !important;
+}
+
+.song-row,.setting-card,.stat-card,.shortcut {
+    border-color: #49345e !important;
+}
+
+.empty-message {
+    border: 1px dashed #76519c;
+}
+
+@media(max-width:360px) {
+    .player-panel { padding: 17px 16px 100px; }
+    .player-art { width: 68vw; height: 68vw; }
+    .player-controls { gap: 7px; }
+    .player-controls button { width: 39px; height: 39px; min-width: 39px; }
+    .player-controls #panelPlay { width: 55px; height: 55px; min-width: 55px; }
 }
 `;
 
@@ -314,25 +388,44 @@ app.innerHTML = `
     <main id="screenContent"></main>
 
     <div class="mini-player">
+        <div class="mini-cover" id="miniCover">♫</div>
+
         <div class="mini-song-info" id="miniSongInfo">
             <strong id="miniTitle">No Song Playing</strong>
             <small id="miniSubtitle">Choose your music</small>
         </div>
+
         <button id="miniPlay" type="button">▶</button>
         <button id="miniNext" type="button">⏭</button>
     </div>
 
     <section class="player-panel" id="playerPanel">
-        <h3 id="panelTitle">No Song Playing</h3>
 
-        <input type="range" id="progress" min="0" max="100" value="0">
-
-        <div style="display:flex;justify-content:space-between;color:#aaaab5;font-size:11px;">
-            <span id="currentTime">0:00</span>
-            <span id="duration">0:00</span>
+        <div class="player-top">
+            <span>NOW PLAYING</span>
+            <button class="player-close" id="closePlayer" type="button">⌄</button>
         </div>
 
-        <div class="controls">
+        <div class="player-art" id="playerArt">
+            <div class="art-icon">♫</div>
+        </div>
+
+        <h2 class="player-song-title" id="panelTitle">No Song Playing</h2>
+        <p class="player-song-subtitle" id="panelSubtitle">Mind Fresh Music</p>
+
+        <div class="visualizer" id="visualizer">
+            ${Array.from({length:18},()=>"<span></span>").join("")}
+        </div>
+
+        <div class="player-progress">
+            <input type="range" id="progress" min="0" max="100" value="0">
+            <div class="player-times">
+                <span id="currentTime">0:00</span>
+                <span id="duration">0:00</span>
+            </div>
+        </div>
+
+        <div class="player-controls">
             <button id="shuffleBtn" type="button">🔀</button>
             <button id="prevBtn" type="button">⏮</button>
             <button id="panelPlay" type="button">▶</button>
@@ -340,14 +433,23 @@ app.innerHTML = `
             <button id="repeatBtn" type="button">🔁</button>
         </div>
 
-        <button id="likeBtn" type="button">☆ Add to Favorites</button>
+        <div class="player-bottom">
+            <button id="likeBtn" type="button">☆ Favorite</button>
+            <span style="color:#aaa2b7;font-size:11px;">MIND FRESH MUSIC</span>
+        </div>
 
-        <p style="margin-top:12px;">🔊 Volume</p>
-        <input type="range" id="volumeControl" min="0" max="100" value="80">
+        <div class="volume-area">
+            🔊 Volume
+            <input type="range" id="volumeControl" min="0" max="100" value="80">
+        </div>
+
     </section>
 
     <audio id="audioPlayer" preload="metadata"></audio>
 `;
+
+
+/* ELEMENTS */
 
 const screenContent = document.getElementById("screenContent");
 const audio = document.getElementById("audioPlayer");
@@ -356,9 +458,12 @@ const miniTitle = document.getElementById("miniTitle");
 const miniSubtitle = document.getElementById("miniSubtitle");
 const miniPlay = document.getElementById("miniPlay");
 const miniNext = document.getElementById("miniNext");
+const miniCover = document.getElementById("miniCover");
 
 const playerPanel = document.getElementById("playerPanel");
 const panelTitle = document.getElementById("panelTitle");
+const panelSubtitle = document.getElementById("panelSubtitle");
+const playerArt = document.getElementById("playerArt");
 
 const panelPlay = document.getElementById("panelPlay");
 const prevBtn = document.getElementById("prevBtn");
@@ -372,125 +477,87 @@ const progress = document.getElementById("progress");
 const currentTime = document.getElementById("currentTime");
 const duration = document.getElementById("duration");
 const volumeControl = document.getElementById("volumeControl");
+const visualizer = document.getElementById("visualizer");
 
 
-/* DATABASE - PRESERVE EXISTING SONGS */
+/* DATABASE - KEEP EXISTING SONGS */
 
 let db;
 
 function openDatabase() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve,reject) => {
         if (!("indexedDB" in window)) {
-            reject(new Error("এই ব্রাউজারে IndexedDB সমর্থিত নয়।"));
+            reject(new Error("IndexedDB সমর্থিত নয়।"));
             return;
         }
 
-        /*
-          Version 3 is an additive upgrade.
-          It does NOT delete the database or existing songs.
-          The songs store is created only if it is missing.
-        */
-        const request = indexedDB.open("MindFreshMusicDB", 3);
+        const request = indexedDB.open("MindFreshMusicDB",3);
 
-        request.onupgradeneeded = (event) => {
+        request.onupgradeneeded = event => {
             const database = event.target.result;
 
             if (!database.objectStoreNames.contains("songs")) {
-                database.createObjectStore("songs", {
-                    keyPath: "id",
-                    autoIncrement: true
+                database.createObjectStore("songs",{
+                    keyPath:"id",
+                    autoIncrement:true
                 });
             }
         };
 
         request.onsuccess = () => {
             db = request.result;
-
-            db.onversionchange = () => {
-                db.close();
-                console.warn("Database version changed. Reload the app.");
-            };
-
+            db.onversionchange = () => db.close();
             resolve(db);
         };
 
-        request.onerror = () => {
-            reject(request.error || new Error("Database could not be opened."));
-        };
-
-        request.onblocked = () => {
-            console.warn("Database upgrade is blocked. Close other Mind fresh Music tabs, then reload.");
-        };
+        request.onerror = () => reject(request.error);
+        request.onblocked = () => console.warn("Database upgrade blocked.");
     });
 }
 
 function getAllSongs() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve,reject) => {
         try {
             if (!db || !db.objectStoreNames.contains("songs")) {
-                reject(new Error("গানের Database বা songs storage পাওয়া যায়নি।"));
+                reject(new Error("Songs storage পাওয়া যায়নি।"));
                 return;
             }
 
-            const transaction = db.transaction("songs", "readonly");
-            const request = transaction.objectStore("songs").getAll();
+            const tx = db.transaction("songs","readonly");
+            const request = tx.objectStore("songs").getAll();
 
             request.onsuccess = () => resolve(request.result || []);
-            request.onerror = () => {
-                reject(request.error || new Error("সংরক্ষিত গান পড়া যায়নি।"));
-            };
-            transaction.onabort = () => {
-                reject(transaction.error || new Error("গান পড়ার কাজ বন্ধ হয়ে গেছে।"));
-            };
-        } catch (error) {
+            request.onerror = () => reject(request.error);
+            tx.onabort = () => reject(tx.error);
+        } catch(error) {
             reject(error);
         }
     });
 }
 
 function saveSong(song) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve,reject) => {
         try {
-            if (!db || !db.objectStoreNames.contains("songs")) {
-                reject(new Error("গানের Database প্রস্তুত নয়।"));
-                return;
-            }
-
-            const transaction = db.transaction("songs", "readwrite");
-            transaction.objectStore("songs").add(song);
-
-            transaction.oncomplete = () => resolve();
-            transaction.onerror = () => {
-                reject(transaction.error || new Error("গান সংরক্ষণের কাজ ব্যর্থ হয়েছে।"));
-            };
-            transaction.onabort = () => {
-                reject(transaction.error || new Error("গান সংরক্ষণের কাজ বাতিল হয়েছে।"));
-            };
-        } catch (error) {
+            const tx = db.transaction("songs","readwrite");
+            tx.objectStore("songs").add(song);
+            tx.oncomplete = resolve;
+            tx.onerror = () => reject(tx.error);
+            tx.onabort = () => reject(tx.error);
+        } catch(error) {
             reject(error);
         }
     });
 }
 
 function updateSong(song) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve,reject) => {
         try {
-            if (!db || !db.objectStoreNames.contains("songs")) {
-                reject(new Error("গানের Database প্রস্তুত নয়।"));
-                return;
-            }
-
-            const transaction = db.transaction("songs", "readwrite");
-            transaction.objectStore("songs").put(song);
-
-            transaction.oncomplete = () => resolve();
-            transaction.onerror = () => {
-                reject(transaction.error || new Error("গানের তথ্য আপডেট করা যায়নি।"));
-            };
-            transaction.onabort = () => {
-                reject(transaction.error || new Error("গানের তথ্য আপডেট বাতিল হয়েছে।"));
-            };
-        } catch (error) {
+            const tx = db.transaction("songs","readwrite");
+            tx.objectStore("songs").put(song);
+            tx.oncomplete = resolve;
+            tx.onerror = () => reject(tx.error);
+            tx.onabort = () => reject(tx.error);
+        } catch(error) {
             reject(error);
         }
     });
@@ -507,7 +574,7 @@ let repeat = false;
 let currentURL = null;
 
 
-/* NAVIGATION ELEMENTS */
+/* NAVIGATION */
 
 const libraryNav = document.getElementById("libraryNav");
 const favoritesNav = document.getElementById("favoritesNav");
@@ -520,28 +587,26 @@ function updateNavigation() {
         button.classList.remove("active");
     });
 
-    const activeButtons = {
-        home: homeNav,
-        library: libraryNav,
-        favorites: favoritesNav,
-        youtube: youtubeNav,
-        settings: settingsNav
+    const active = {
+        home:homeNav,
+        library:libraryNav,
+        favorites:favoritesNav,
+        youtube:youtubeNav,
+        settings:settingsNav
     };
 
-    if (activeButtons[currentScreen]) {
-        activeButtons[currentScreen].classList.add("active");
-    }
+    if(active[currentScreen]) active[currentScreen].classList.add("active");
 }
 
 
-/* HOME SCREEN */
+/* HOME */
 
 function showHome() {
     currentScreen = "home";
 
     screenContent.innerHTML = `
         <div class="screen">
-            <h1 style="color:#bb86fc;margin-top:8px;">Mind fresh Music</h1>
+            <h1 style="color:#e8c477;margin-top:8px;">Mind fresh Music</h1>
             <p class="screen-subtitle">Your music. Your mood.</p>
 
             <div class="home-welcome">
@@ -586,7 +651,7 @@ function showHome() {
 }
 
 
-/* LIBRARY SCREEN */
+/* LIBRARY */
 
 function showLibrary() {
     currentScreen = "library";
@@ -610,18 +675,16 @@ function showLibrary() {
         </div>
     `;
 
-    document.getElementById("songInput").addEventListener("change", addSelectedSongs);
-    document.getElementById("librarySearch").addEventListener("input", renderLibrarySongs);
+    document.getElementById("songInput").addEventListener("change",addSelectedSongs);
+    document.getElementById("librarySearch").addEventListener("input",renderLibrarySongs);
 
     renderLibrarySongs();
     updateNavigation();
 }
 
 function isAudioFile(file) {
-    if (!file) return false;
-    if (file.type && file.type.toLowerCase().startsWith("audio/")) return true;
-
-    // Some Android file pickers return an empty MIME type.
+    if(!file) return false;
+    if(file.type && file.type.toLowerCase().startsWith("audio/")) return true;
     return /\.(mp3|m4a|aac|wav|ogg|oga|opus|flac|wma|aiff|mid|midi)$/i.test(file.name || "");
 }
 
@@ -629,75 +692,56 @@ async function addSelectedSongs(event) {
     const input = event && event.target;
     const files = Array.from((input && input.files) || []);
 
-    if (!files.length) return;
+    if(!files.length) return;
 
-    let addedCount = 0;
-    let duplicateCount = 0;
-    let unsupportedCount = 0;
+    let added = 0;
+    let duplicates = 0;
+    let unsupported = 0;
 
     try {
-        if (!db) {
-            throw new Error("গানের Database এখনো চালু হয়নি।");
-        }
+        if(!db) throw new Error("Database প্রস্তুত নয়।");
 
-        // Always read saved songs first so duplicate checks use current data.
         await loadSongs();
 
-        for (const file of files) {
-            if (!isAudioFile(file)) {
-                unsupportedCount++;
+        for(const file of files) {
+            if(!isAudioFile(file)) {
+                unsupported++;
                 continue;
             }
 
             const duplicate = songs.some(song =>
-                song &&
-                song.name === file.name &&
-                song.file &&
-                song.file.size === file.size &&
+                song && song.name === file.name &&
+                song.file && song.file.size === file.size &&
                 song.file.lastModified === file.lastModified
             );
 
-            if (duplicate) {
-                duplicateCount++;
+            if(duplicate) {
+                duplicates++;
                 continue;
             }
 
             await saveSong({
-                name: file.name,
-                file: file,
-                favorite: false
+                name:file.name,
+                file:file,
+                favorite:false
             });
 
-            addedCount++;
+            added++;
         }
 
         await loadSongs();
         showLibrary();
 
-        if (addedCount > 0) {
-            alert(addedCount + "টি গান Library-তে যোগ হয়েছে।");
-        } else if (duplicateCount > 0 && unsupportedCount === 0) {
-            alert("নির্বাচিত গানগুলো আগে থেকেই Library-তে আছে।");
-        } else if (unsupportedCount > 0 && duplicateCount === 0) {
-            alert("নির্বাচিত ফাইলগুলোর মধ্যে সমর্থিত Audio file পাওয়া যায়নি।");
-        } else if (duplicateCount > 0 || unsupportedCount > 0) {
-            alert("নতুন গান যোগ হয়নি। কিছু গান আগে থেকেই আছে অথবা Audio file নয়।");
-        }
+        if(added) alert(added + "টি গান Library-তে যোগ হয়েছে।");
+        else if(duplicates && !unsupported) alert("গানগুলো আগে থেকেই Library-তে আছে।");
+        else if(unsupported && !duplicates) alert("সমর্থিত Audio file পাওয়া যায়নি।");
+        else alert("নতুন গান যোগ হয়নি।");
 
-    } catch (error) {
-        console.error("Mind fresh Music song save error:", error);
-
-        const errorName = error && error.name ? error.name : "UnknownError";
-        const errorMessage = error && error.message ? error.message : String(error);
-
-        alert(
-            "গান সেভ করা যায়নি।\n\nসমস্যা: " + errorName +
-            "\nবিস্তারিত: " + errorMessage +
-            "\n\nএই Error message-টি আমাকে পাঠাও।"
-        );
+    } catch(error) {
+        console.error(error);
+        alert("গান সেভ করা যায়নি: " + (error.message || error));
     } finally {
-        // Allow selecting the same file again after an unsuccessful attempt.
-        if (input) input.value = "";
+        if(input) input.value = "";
     }
 }
 
@@ -705,34 +749,28 @@ function renderLibrarySongs() {
     const list = document.getElementById("librarySongList");
     const searchInput = document.getElementById("librarySearch");
 
-    if (!list || !searchInput) return;
+    if(!list || !searchInput) return;
 
     list.innerHTML = "";
 
     const search = searchInput.value.trim().toLowerCase();
 
     const filtered = songs
-        .map((song, index) => ({ song, index }))
-        .filter(item =>
-            item.song &&
+        .map((song,index) => ({song,index}))
+        .filter(item => item.song &&
             (item.song.name || "").toLowerCase().includes(search)
         );
 
-    if (!filtered.length) {
-        list.innerHTML = `
-            <div class="empty-message">
-                No songs found.<br>
-                Add songs from your phone.
-            </div>
-        `;
+    if(!filtered.length) {
+        list.innerHTML = `<div class="empty-message">No songs found.<br>Add songs from your phone.</div>`;
         return;
     }
 
-    filtered.forEach(item => createSongRow(list, item.song, item.index));
+    filtered.forEach(item => createSongRow(list,item.song,item.index));
 }
 
 
-/* FAVORITES SCREEN */
+/* FAVORITES */
 
 function showFavorites() {
     currentScreen = "favorites";
@@ -751,31 +789,26 @@ function showFavorites() {
 
 function renderFavoriteSongs() {
     const list = document.getElementById("favoriteSongList");
-    if (!list) return;
+    if(!list) return;
 
     list.innerHTML = "";
 
     const favorites = songs
-        .map((song, index) => ({ song, index }))
+        .map((song,index) => ({song,index}))
         .filter(item => item.song && item.song.favorite);
 
-    if (!favorites.length) {
-        list.innerHTML = `
-            <div class="empty-message">
-                No favorite songs yet.<br>
-                Add songs using the ☆ button.
-            </div>
-        `;
+    if(!favorites.length) {
+        list.innerHTML = `<div class="empty-message">No favorite songs yet.<br>Add songs using the ☆ button.</div>`;
         return;
     }
 
-    favorites.forEach(item => createSongRow(list, item.song, item.index));
+    favorites.forEach(item => createSongRow(list,item.song,item.index));
 }
 
 
 /* SONG ROW */
 
-function createSongRow(container, song, index) {
+function createSongRow(container,song,index) {
     const row = document.createElement("div");
     row.className = "song-row";
 
@@ -789,27 +822,26 @@ function createSongRow(container, song, index) {
     favorite.textContent = song.favorite ? "⭐" : "☆";
 
     favorite.onclick = async () => {
-        const oldValue = !!song.favorite;
-        song.favorite = !oldValue;
+        const old = !!song.favorite;
+        song.favorite = !old;
         favorite.disabled = true;
 
         try {
             await updateSong(song);
-            if (currentScreen === "favorites") renderFavoriteSongs();
-            else renderLibrarySongs();
+            if(currentScreen === "favorites") renderFavoriteSongs();
+            else if(currentScreen === "library") renderLibrarySongs();
 
             updateHomeStats();
             updateLikeButton();
-        } catch (error) {
-            song.favorite = oldValue;
-            console.error("Favorite update error:", error);
+        } catch(error) {
+            song.favorite = old;
             alert("Favorite পরিবর্তন করা যায়নি: " + (error.message || error));
             favorite.disabled = false;
             favorite.textContent = song.favorite ? "⭐" : "☆";
         }
     };
 
-    row.append(name, favorite);
+    row.append(name,favorite);
     container.appendChild(row);
 }
 
@@ -820,15 +852,15 @@ function updateHomeStats() {
     const total = document.getElementById("totalSongs");
     const favorites = document.getElementById("totalFavorites");
 
-    if (total) total.textContent = songs.length;
+    if(total) total.textContent = songs.length;
 
-    if (favorites) {
+    if(favorites) {
         favorites.textContent = songs.filter(song => song && song.favorite).length;
     }
 }
 
 
-/* YOUTUBE SCREEN */
+/* YOUTUBE */
 
 function showYouTube() {
     currentScreen = "youtube";
@@ -850,7 +882,7 @@ function showYouTube() {
     document.getElementById("youtubeSearchBtn").onclick = () => {
         const query = document.getElementById("youtubeSearch").value.trim();
 
-        if (!query) {
+        if(!query) {
             alert("Please enter a song name.");
             return;
         }
@@ -865,7 +897,7 @@ function showYouTube() {
 }
 
 
-/* SETTINGS SCREEN */
+/* SETTINGS */
 
 function showSettings() {
     currentScreen = "settings";
@@ -887,7 +919,7 @@ function showSettings() {
 
             <div class="setting-card">
                 <h3>App Information</h3>
-                <p>Mind fresh Music<br>Version 1.0<br>Premium Dark Edition</p>
+                <p>Mind fresh Music<br>Version 1.0<br>Luxury Premium Edition</p>
             </div>
         </div>
     `;
@@ -898,27 +930,43 @@ function showSettings() {
 
 /* NAVIGATION EVENTS */
 
-if (homeNav) homeNav.addEventListener("click", showHome);
-if (libraryNav) libraryNav.addEventListener("click", showLibrary);
-if (favoritesNav) favoritesNav.addEventListener("click", showFavorites);
-if (youtubeNav) youtubeNav.addEventListener("click", showYouTube);
-if (settingsNav) settingsNav.addEventListener("click", showSettings);
+if(homeNav) homeNav.addEventListener("click",showHome);
+if(libraryNav) libraryNav.addEventListener("click",showLibrary);
+if(favoritesNav) favoritesNav.addEventListener("click",showFavorites);
+if(youtubeNav) youtubeNav.addEventListener("click",showYouTube);
+if(settingsNav) settingsNav.addEventListener("click",showSettings);
 
 
-/* AUDIO PLAYER */
+/* PLAYER DISPLAY */
+
+function openPlayer() {
+    playerPanel.classList.add("open");
+}
+
+function closePlayer() {
+    playerPanel.classList.remove("open");
+}
+
+document.getElementById("miniSongInfo").onclick = openPlayer;
+miniCover.onclick = openPlayer;
+document.getElementById("closePlayer").onclick = closePlayer;
+
+
+/* PLAY SONG */
 
 function playSong(index) {
-    if (index < 0 || index >= songs.length) return;
+    if(index < 0 || index >= songs.length) return;
 
     const song = songs[index];
-    if (!song || !song.file) {
+
+    if(!song || !song.file) {
         alert("এই গানের Audio file পাওয়া যাচ্ছে না।");
         return;
     }
 
     currentSong = index;
 
-    if (currentURL) {
+    if(currentURL) {
         URL.revokeObjectURL(currentURL);
         currentURL = null;
     }
@@ -926,69 +974,74 @@ function playSong(index) {
     currentURL = URL.createObjectURL(song.file);
     audio.src = currentURL;
 
-    miniTitle.textContent = song.name || "Unknown song";
-    miniSubtitle.textContent = "Local Music";
-    panelTitle.textContent = song.name || "Unknown song";
+    const name = song.name || "Unknown song";
+
+    miniTitle.textContent = name;
+    miniSubtitle.textContent = "Local Music • Now Playing";
+    panelTitle.textContent = name;
+    panelSubtitle.textContent = "Mind Fresh Music • Local Audio";
+
+    miniCover.textContent = "♫";
 
     audio.currentTime = 0;
     progress.value = 0;
     currentTime.textContent = "0:00";
     duration.textContent = "0:00";
 
+    updateLikeButton();
+    openPlayer();
+
     audio.play().catch(error => {
-        console.warn("Playback did not start:", error);
+        console.warn("Playback did not start:",error);
         miniPlay.textContent = "▶";
         panelPlay.textContent = "▶";
     });
-
-    updateLikeButton();
 }
 
 
 /* PLAY / PAUSE */
 
 function togglePlayback() {
-    if (currentSong < 0) return;
+    if(currentSong < 0) return;
 
-    if (audio.paused) {
-        audio.play().catch(error => console.warn("Playback error:", error));
+    if(audio.paused) {
+        audio.play().catch(error => console.warn("Playback error:",error));
     } else {
         audio.pause();
     }
 }
 
-miniPlay.addEventListener("click", togglePlayback);
-panelPlay.addEventListener("click", togglePlayback);
+miniPlay.addEventListener("click",togglePlayback);
+panelPlay.addEventListener("click",togglePlayback);
 
-audio.addEventListener("play", () => {
+audio.addEventListener("play",() => {
     miniPlay.textContent = "Ⅱ";
     panelPlay.textContent = "Ⅱ";
+    miniCover.classList.add("playing");
+    playerArt.classList.add("playing");
+    visualizer.classList.add("active");
 });
 
-audio.addEventListener("pause", () => {
+audio.addEventListener("pause",() => {
     miniPlay.textContent = "▶";
     panelPlay.textContent = "▶";
+    miniCover.classList.remove("playing");
+    playerArt.classList.remove("playing");
+    visualizer.classList.remove("active");
 });
 
 
-/* PLAYER PANEL */
-
-document.getElementById("miniSongInfo").onclick = () => {
-    playerPanel.classList.toggle("open");
-};
-
-
-/* NEXT AND PREVIOUS */
+/* NEXT / PREVIOUS */
 
 function nextSong() {
-    if (!songs.length) return;
+    if(!songs.length) return;
 
     let next;
 
-    if (shuffle && songs.length > 1) {
+    if(shuffle && songs.length > 1) {
         do {
             next = Math.floor(Math.random() * songs.length);
-        } while (next === currentSong);
+        } while(next === currentSong);
     } else {
         next = (currentSong + 1) % songs.length;
     }
@@ -997,47 +1050,47 @@ function nextSong() {
 }
 
 function previousSong() {
-    if (!songs.length) return;
+    if(!songs.length) return;
     playSong((currentSong - 1 + songs.length) % songs.length);
 }
 
-nextBtn.addEventListener("click", nextSong);
-miniNext.addEventListener("click", nextSong);
-prevBtn.addEventListener("click", previousSong);
+nextBtn.addEventListener("click",nextSong);
+miniNext.addEventListener("click",nextSong);
+prevBtn.addEventListener("click",previousSong);
 
 
 /* FAVORITE PLAYER BUTTON */
 
 function updateLikeButton() {
-    if (currentSong < 0 || !songs[currentSong]) {
-        likeBtn.textContent = "☆ Add to Favorites";
+    if(currentSong < 0 || !songs[currentSong]) {
+        likeBtn.textContent = "☆ Favorite";
         return;
     }
 
     likeBtn.textContent = songs[currentSong].favorite
-        ? "⭐ Remove from Favorites"
+        ? "⭐ Remove Favorite"
         : "☆ Add to Favorites";
 }
 
-likeBtn.addEventListener("click", async () => {
-    if (currentSong < 0 || !songs[currentSong]) return;
+likeBtn.addEventListener("click",async () => {
+    if(currentSong < 0 || !songs[currentSong]) return;
 
     const song = songs[currentSong];
-    const oldValue = !!song.favorite;
-    song.favorite = !oldValue;
+    const old = !!song.favorite;
+
+    song.favorite = !old;
     likeBtn.disabled = true;
 
     try {
         await updateSong(song);
         updateLikeButton();
 
-        if (currentScreen === "favorites") renderFavoriteSongs();
-        if (currentScreen === "library") renderLibrarySongs();
+        if(currentScreen === "favorites") renderFavoriteSongs();
+        if(currentScreen === "library") renderLibrarySongs();
 
         updateHomeStats();
-    } catch (error) {
-        song.favorite = oldValue;
-        console.error("Favorite update error:", error);
+    } catch(error) {
+        song.favorite = old;
         alert("Favorite পরিবর্তন করা যায়নি: " + (error.message || error));
     } finally {
         likeBtn.disabled = false;
@@ -1045,44 +1098,44 @@ likeBtn.addEventListener("click", async () => {
 });
 
 
-/* SHUFFLE AND REPEAT */
+/* SHUFFLE / REPEAT */
 
-shuffleBtn.addEventListener("click", () => {
+shuffleBtn.addEventListener("click",() => {
     shuffle = !shuffle;
-    shuffleBtn.style.background = shuffle ? "#5b3b91" : "";
+    shuffleBtn.classList.toggle("selected",shuffle);
 });
 
-repeatBtn.addEventListener("click", () => {
+repeatBtn.addEventListener("click",() => {
     repeat = !repeat;
-    repeatBtn.style.background = repeat ? "#5b3b91" : "";
+    repeatBtn.classList.toggle("selected",repeat);
 });
 
 
-/* PROGRESS */
+/* TIME */
 
 function formatTime(seconds) {
-    if (!Number.isFinite(seconds)) return "0:00";
+    if(!Number.isFinite(seconds)) return "0:00";
 
     const minutes = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
 
-    return minutes + ":" + String(secs).padStart(2, "0");
+    return minutes + ":" + String(secs).padStart(2,"0");
 }
 
-audio.addEventListener("timeupdate", () => {
-    if (!audio.duration || !Number.isFinite(audio.duration)) return;
+audio.addEventListener("timeupdate",() => {
+    if(!audio.duration || !Number.isFinite(audio.duration)) return;
 
     progress.value = (audio.currentTime / audio.duration) * 100;
     currentTime.textContent = formatTime(audio.currentTime);
     duration.textContent = formatTime(audio.duration);
 });
 
-audio.addEventListener("loadedmetadata", () => {
+audio.addEventListener("loadedmetadata",() => {
     duration.textContent = formatTime(audio.duration);
 });
 
-progress.addEventListener("input", () => {
-    if (audio.duration && Number.isFinite(audio.duration)) {
+progress.addEventListener("input",() => {
+    if(audio.duration && Number.isFinite(audio.duration)) {
         audio.currentTime = (Number(progress.value) / 100) * audio.duration;
     }
 });
@@ -1090,10 +1143,10 @@ progress.addEventListener("input", () => {
 
 /* AUTO NEXT */
 
-audio.addEventListener("ended", () => {
-    if (repeat) {
+audio.addEventListener("ended",() => {
+    if(repeat) {
         audio.currentTime = 0;
-        audio.play().catch(error => console.warn("Repeat playback error:", error));
+        audio.play().catch(error => console.warn(error));
     } else {
         nextSong();
     }
@@ -1104,7 +1157,7 @@ audio.addEventListener("ended", () => {
 
 audio.volume = 0.8;
 
-volumeControl.addEventListener("input", function () {
+volumeControl.addEventListener("input",function() {
     audio.volume = Number(this.value) / 100;
 });
 
@@ -1117,7 +1170,7 @@ async function loadSongs() {
 }
 
 
-/* START */
+/* START APP */
 
 openDatabase()
     .then(async () => {
@@ -1125,7 +1178,7 @@ openDatabase()
         showHome();
     })
     .catch(error => {
-        console.error("Mind fresh Music startup/database error:", error);
+        console.error("Mind fresh Music startup error:",error);
 
         screenContent.innerHTML = `
             <div class="empty-message">
@@ -1137,7 +1190,7 @@ openDatabase()
         `;
     });
 
-window.addEventListener("beforeunload", () => {
-    if (currentURL) URL.revokeObjectURL(currentURL);
-    if (db) db.close();
+window.addEventListener("beforeunload",() => {
+    if(currentURL) URL.revokeObjectURL(currentURL);
+    if(db) db.close();
 });
