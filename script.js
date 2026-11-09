@@ -108,29 +108,49 @@ body {
 
 /* FULL PLAYER */
 
+/* HALF SCREEN PREMIUM PLAYER */
+
 .player-panel {
     position: fixed;
-    inset: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
     width: 100%;
-    height: 100%;
-    height: 100dvh;
-    padding: 22px 22px 105px;
+    height: 60vh;
+    height: 60dvh;
+    max-height: 620px;
+    min-height: 400px;
+    padding: 15px 20px 25px;
     box-sizing: border-box;
+
     background:
         radial-gradient(ellipse at top,#44275f 0%,transparent 50%),
         linear-gradient(160deg,#17101f,#08080d 75%);
+
     z-index: 2000;
     display: none;
     flex-direction: column;
     align-items: center;
     overflow-y: auto;
-    border: none !important;
-    border-radius: 0 !important;
+
+    border: 1px solid #76519c !important;
+    border-bottom: none !important;
+    border-radius: 24px 24px 0 0 !important;
+
+    box-shadow: 0 -10px 40px #00000090;
 }
 
 .player-panel.open {
     display: flex !important;
     animation: playerOpen .3s ease;
+}
+
+@media(max-height:650px) {
+    .player-panel {
+        height: 75dvh;
+        min-height: 350px;
+    }
 }
 
 @keyframes playerOpen {
